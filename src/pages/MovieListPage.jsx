@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react"
-import movies from "../data/movies.json"
 import MovieCard from "../components/MovieCard"
 
 
 export default function MovieListPage() {
     const [search, setSearch] = useState("")
     const [filmes, setFilmes] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+        setIsLoading(true)
         fetch('https://api.themoviedb.org/3/movie/popular?api_key=7c572a9f5b3ba776080330d23bb76e1e&language=pt-br')
             .then( data => data.json())
             .then( data => setFilmes(data.results))
             .catch(err => console.log(err))
-            .finally(() => console.log('Fim'))
+            .finally(() => setIsLoading(false))
     }, [])
     
     const handleSearch = (event) => {
@@ -30,17 +31,14 @@ export default function MovieListPage() {
                 value={search}
                 onChange={handleSearch}
             />
-            <section className="">
+            <section className="flex flex-wrap justify-between gap-4">
 
                 {
+                    isLoading ? <p>Carregando...</p>
+                    :
                     filmesFiltrados.length > 0 ?
                     filmesFiltrados.map(filme => (
-                        <div>
-                        <h1>{filme.title}</h1>
-                        <p>{filme.vote_average}</p>
-                        <img src={`https://image.tmdb.org/t/p/w1280${filme.backdrop_path}`}/>
-                        <img src={`https://image.tmdb.org/t/p/w185${filme.poster_path}`}/>
-                        </div>
+                        <MovieCard key={filme.id} {...filme}/>
                     ))
                     :
                     <p>Filme não encontrado</p>
