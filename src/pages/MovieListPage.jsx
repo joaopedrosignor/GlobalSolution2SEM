@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import MovieCard from "../components/MovieCard"
+import {Swiper, SwiperSlide} from "swiper/react";
 
 
 export default function MovieListPage() {
@@ -23,27 +24,35 @@ export default function MovieListPage() {
         toLowerCase().includes(search.toLowerCase()))
     return (
         <>
-            <h2>Veja o catálogo completo de filmes</h2>
+        <div className="flex flex-col items-center justify-center text-center my-4">
+
+            <h2 className="text-center mb-4">Veja o catálogo completo de filmes</h2>
             <input
-                className="text-black"
+                className="text-black p-1 rounded-md border border-gray-300 focus:outline-none"
                 type="text"
                 id="search"
                 value={search}
                 onChange={handleSearch}
             />
-            <section className="flex flex-wrap justify-between gap-4">
-
-                {
-                    isLoading ? <p>Carregando...</p>
-                    :
-                    filmesFiltrados.length > 0 ?
+        </div>
+        <section className="flex flex-wrap justify-center gap-4">
+            {
+                isLoading ? (
+                    <p>Carregando...</p>
+                ) : filmesFiltrados.length > 0 ? (
+                
                     filmesFiltrados.map(filme => (
                         <MovieCard key={filme.id} {...filme}/>
                     ))
-                    :
-                    <p>Filme não encontrado</p>
-                }
-            </section>
+
+                ) : (
+                    <div className="w-full flex items-center justify-center text-center py-8">
+                        <p>Filme não encontrado</p>
+                    </div>
+                )
+            }
+        </section>
+
         </>
     )
 }

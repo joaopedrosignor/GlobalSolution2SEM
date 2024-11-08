@@ -10,6 +10,11 @@ import GenreListPage from './pages/GenreListPage.jsx'
 import MoviesByGenrePage from './pages/MoviesByGenrePage.jsx'
 import PageNotFound from './pages/PageNotFound.jsx'
 import Contato from './pages/Contato.jsx'
+import { register } from 'swiper/element/bundle'
+register();
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
 
 const router = createBrowserRouter ([{
   path: '/',
