@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
+
 
 export default function MovieDetailPage() {
     const { id } = useParams();
@@ -13,22 +15,29 @@ export default function MovieDetailPage() {
         let favoritos = JSON.parse(localStorage.getItem("favoritos")) || []
 
         let isFavorito = favoritos.some(filme=>filme.id === movie.id)
-        setFavorito(isFavorito)
+        
 
         if (isFavorito){
             favoritos = favoritos.filter(filme => filme.id != movie.id)
+            setFavorito(false)
         }else{
             favoritos.push(movie)
+            setFavorito(true)
         }
 
         localStorage.setItem("favoritos", JSON.stringify(favoritos))
     }
 
     useEffect(() => {
+        
+        let favoritos = JSON.parse(localStorage.getItem("favoritos")) || []
         // Fetch movie details
         fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=7c572a9f5b3ba776080330d23bb76e1e&language=pt-br`)
             .then(data => data.json())
-            .then(data => setMovie(data))
+            .then(data => {
+                setMovie(data)
+                setFavorito(favoritos.some(filme => filme.id === data.id))
+            })
             .catch(err => console.log(err));
 
         // Fetch movie cast
@@ -55,7 +64,7 @@ export default function MovieDetailPage() {
 
     return (
         <>
-            <div className="w-full flex justify-center items-center flex-col my-0 py-0" 
+            <div className="w-full flex justify-center items-center flex-col m-0 p-0" 
                 style={{
                     backgroundImage: `url("https://image.tmdb.org/t/p/w1280${movie.backdrop_path}")`,
                     backgroundSize: "cover",
@@ -68,7 +77,7 @@ export default function MovieDetailPage() {
             <div className="p-8">
                 <h1 className="text-2xl">Sinopse</h1>
                 <p className="text-lg mt-4">{movie.overview}</p>
-                <button  onClick={()=> handleFavorito(movie)}>{favorito ? "Adicionar": "Remover"}</button>
+                <button  onClick={()=> handleFavorito(movie)}>{favorito ? <MdFavorite />: <MdFavoriteBorder />}</button>
                 <h1 className="text-2xl mt-4">Data de Lançamento: {movie.release_date}</h1>
                 <h1 className="text-xl mt-4">Nota: {movie.vote_average}</h1>
                 
@@ -102,7 +111,6 @@ export default function MovieDetailPage() {
                                 src={trailer} 
                                 title="Trailer do Filme"
                                 className="absolute top-0 left-0 w-full h-full"
-                                frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                 allowFullScreen
                             ></iframe>

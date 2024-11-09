@@ -96,19 +96,20 @@ export default function Home(){
                        favorito.length > 0 ?
                        
                        <Swiper
-                       slidesPerView={slidePerView}>
+                       slidesPerView={favorito.length < 5 ? favorito.length: slidePerView}>
                         
                         {favorito.map(filme => (
+
                             <SwiperSlide>
                                 <MovieCard key={filme.id} {...filme}/>
-                            </SwiperSlide>
+                             </SwiperSlide>
                             
                         ))}
                         </Swiper>
                         :
                         <p className="text-white">Sua lista ainda está vazia
                         </p>
-                    }
+                    } 
                 
             </CardContainer>
             
