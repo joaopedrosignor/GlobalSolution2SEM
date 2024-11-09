@@ -9,6 +9,8 @@ export default function Home(){
     const [filmesNaoLancados, setFilmesNaoLancados] = useState([])
     const [slidePerView, setSlidePerView] = useState(5)
     const [favorito, setFavorito] = useState([])
+    const [verDepois, setVerDepois] = useState([])
+    const [visto, setVisto] = useState([])
 
    
     
@@ -28,6 +30,10 @@ export default function Home(){
 
         let favoritos = JSON.parse(localStorage.getItem("favoritos")) || []
         setFavorito(favoritos)
+        let verDepois = JSON.parse(localStorage.getItem("verdepois")) || []
+        setVerDepois(verDepois)
+        let visto = JSON.parse(localStorage.getItem("vistos")) || []
+        setVisto(visto)
 
 
         function handleResize(){
@@ -99,6 +105,50 @@ export default function Home(){
                        slidesPerView={favorito.length < 5 ? favorito.length: slidePerView}>
                         
                         {favorito.map(filme => (
+
+                            <SwiperSlide>
+                                <MovieCard key={filme.id} {...filme}/>
+                             </SwiperSlide>
+                            
+                        ))}
+                        </Swiper>
+                        :
+                        <p className="text-white">Sua lista ainda está vazia
+                        </p>
+                    } 
+                
+            </CardContainer>
+            <CardContainer titulo="Ver Depois">
+                
+                    {
+                       verDepois.length > 0 ?
+                       
+                       <Swiper
+                       slidesPerView={verDepois.length < 5 ? verDepois.length: slidePerView}>
+                        
+                        {verDepois.map(filme => (
+
+                            <SwiperSlide>
+                                <MovieCard key={filme.id} {...filme}/>
+                             </SwiperSlide>
+                            
+                        ))}
+                        </Swiper>
+                        :
+                        <p className="text-white">Sua lista ainda está vazia
+                        </p>
+                    } 
+                
+            </CardContainer>
+            <CardContainer titulo="Já Assistidos">
+                
+                    {
+                       visto.length > 0 ?
+                       
+                       <Swiper
+                       slidesPerView={visto.length < 5 ? visto.length: slidePerView}>
+                        
+                        {visto.map(filme => (
 
                             <SwiperSlide>
                                 <MovieCard key={filme.id} {...filme}/>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
+import { MdFavoriteBorder, MdFavorite, MdPlaylistPlay, MdPlaylistRemove } from "react-icons/md";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 
 export default function MovieDetailPage() {
@@ -9,6 +10,8 @@ export default function MovieDetailPage() {
     const [cast, setCast] = useState([]);
     const [trailer, setTrailer] = useState("");
     const [favorito, setFavorito] = useState(false)
+    const [verDepois, setVerDepois] = useState(false)
+    const [visto, setVisto] = useState(false)
 
 
     const handleFavorito = (movie) => {
@@ -28,15 +31,52 @@ export default function MovieDetailPage() {
         localStorage.setItem("favoritos", JSON.stringify(favoritos))
     }
 
+    const handleVerDepois = (movie) => {
+        let maisTarde = JSON.parse(localStorage.getItem("verdepois")) || []
+
+        let isVerDepois = maisTarde.some(filme=>filme.id === movie.id)
+        
+
+        if (isVerDepois){
+            maisTarde = maisTarde.filter(filme => filme.id != movie.id)
+            setVerDepois(false)
+        }else{
+            maisTarde.push(movie)
+            setVerDepois(true)
+        }
+
+        localStorage.setItem("verdepois", JSON.stringify(maisTarde))
+    }
+    const handleVistos = (movie) => {
+        let vistos = JSON.parse(localStorage.getItem("vistos")) || []
+
+        let isVisto = vistos.some(filme=>filme.id === movie.id)
+        
+
+        if (isVisto){
+            vistos = vistos.filter(filme => filme.id != movie.id)
+            setVisto(false)
+        }else{
+            vistos.push(movie)
+            setVisto(true)
+        }
+
+        localStorage.setItem("vistos", JSON.stringify(vistos))
+    }
+
     useEffect(() => {
         
         let favoritos = JSON.parse(localStorage.getItem("favoritos")) || []
+        let maisTarde = JSON.parse(localStorage.getItem("verdepois")) || []
+        let vistos = JSON.parse(localStorage.getItem("vistos")) || []
         // Fetch movie details
         fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=7c572a9f5b3ba776080330d23bb76e1e&language=pt-br`)
             .then(data => data.json())
             .then(data => {
                 setMovie(data)
                 setFavorito(favoritos.some(filme => filme.id === data.id))
+                setVerDepois(maisTarde.some(filme => filme.id === data.id))
+                setVisto(vistos.some(filme => filme.id === data.id))
             })
             .catch(err => console.log(err));
 
@@ -75,9 +115,13 @@ export default function MovieDetailPage() {
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center">{movie.title}</h1>
             </div>
             <div className="p-8">
-                <h1 className="text-2xl">Sinopse</h1>
+                <div className="flex justify-between items-center w-[239px]">
+                    <button  className="bg-purple-900 hover:bg-purple-950 text-white font-bold py-3 px-3 rounded-full" onClick={()=> handleFavorito(movie)}>{favorito ? <MdFavorite />: <MdFavoriteBorder />}</button>
+                    <button  className="bg-purple-900 hover:bg-purple-950 text-white font-bold py-3 px-3 rounded-full" onClick={()=> handleVerDepois(movie)}>{verDepois ? <MdPlaylistRemove/>: <MdPlaylistPlay/>}</button>
+                    <button  className="bg-purple-900 hover:bg-purple-950 text-white font-bold py-3 px-3 rounded-full" onClick={()=> handleVistos(movie)}>{visto ? <IoMdEye />: <IoMdEyeOff />}</button>
+                </div>
+                <h1 className="text-2xl mt-4">Sinopse</h1>
                 <p className="text-lg mt-4">{movie.overview}</p>
-                <button  onClick={()=> handleFavorito(movie)}>{favorito ? <MdFavorite />: <MdFavoriteBorder />}</button>
                 <h1 className="text-2xl mt-4">Data de Lançamento: {movie.release_date}</h1>
                 <h1 className="text-xl mt-4">Nota: {movie.vote_average}</h1>
                 
