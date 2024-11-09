@@ -6,6 +6,23 @@ export default function MovieDetailPage() {
     const [movie, setMovie] = useState({});
     const [cast, setCast] = useState([]);
     const [trailer, setTrailer] = useState("");
+    const [favorito, setFavorito] = useState(false)
+
+
+    const handleFavorito = (movie) => {
+        let favoritos = JSON.parse(localStorage.getItem("favoritos")) || []
+
+        let isFavorito = favoritos.some(filme=>filme.id === movie.id)
+        setFavorito(isFavorito)
+
+        if (isFavorito){
+            favoritos = favoritos.filter(filme => filme.id != movie.id)
+        }else{
+            favoritos.push(movie)
+        }
+
+        localStorage.setItem("favoritos", JSON.stringify(favoritos))
+    }
 
     useEffect(() => {
         // Fetch movie details
@@ -32,6 +49,8 @@ export default function MovieDetailPage() {
                 }
             })
             .catch(err => console.log(err));
+
+        
     }, [id]);
 
     return (
@@ -49,6 +68,7 @@ export default function MovieDetailPage() {
             <div className="p-8">
                 <h1 className="text-2xl">Sinopse</h1>
                 <p className="text-lg mt-4">{movie.overview}</p>
+                <button  onClick={()=> handleFavorito(movie)}>{favorito ? "Adicionar": "Remover"}</button>
                 <h1 className="text-2xl mt-4">Data de Lançamento: {movie.release_date}</h1>
                 <h1 className="text-xl mt-4">Nota: {movie.vote_average}</h1>
                 

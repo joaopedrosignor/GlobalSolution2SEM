@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react"
-import MovieCard from "../components/MovieCard"
-import {Swiper, SwiperSlide} from "swiper/react";
+import { useEffect, useState } from "react";
+import MovieCard from "../components/MovieCard";
 
 
 export default function MovieListPage() {
@@ -11,12 +10,12 @@ export default function MovieListPage() {
     useEffect(() => {
         setIsLoading(true)
         fetch('https://api.themoviedb.org/3/movie/popular?api_key=7c572a9f5b3ba776080330d23bb76e1e&language=pt-br')
-            .then( data => data.json())
-            .then( data => setFilmes(data.results))
+            .then(data => data.json())
+            .then(data => setFilmes(data.results))
             .catch(err => console.log(err))
             .finally(() => setIsLoading(false))
     }, [])
-    
+
     const handleSearch = (event) => {
         setSearch((event.target.value))
     }
@@ -24,34 +23,34 @@ export default function MovieListPage() {
         toLowerCase().includes(search.toLowerCase()))
     return (
         <>
-        <div className="flex flex-col items-center justify-center text-center my-4">
+            <div className="flex flex-col items-center justify-center text-center my-4">
 
-            <h2 className="text-center mb-4">Veja o catálogo completo de filmes</h2>
-            <input
-                className="text-black p-1 rounded-md border border-gray-300 focus:outline-none"
-                type="text"
-                id="search"
-                value={search}
-                onChange={handleSearch}
-            />
-        </div>
-        <section className="flex flex-wrap justify-center gap-4">
-            {
-                isLoading ? (
-                    <p>Carregando...</p>
-                ) : filmesFiltrados.length > 0 ? (
-                
-                    filmesFiltrados.map(filme => (
-                        <MovieCard key={filme.id} {...filme}/>
-                    ))
+                <h2 className="text-center mb-4">Veja o catálogo completo de filmes</h2>
+                <input
+                    className="text-black p-1 rounded-md border border-gray-300 focus:outline-none"
+                    type="text"
+                    id="search"
+                    value={search}
+                    onChange={handleSearch}
+                />
+            </div>
+            <section className="flex flex-wrap justify-center gap-4">
+                {
+                    isLoading ? (
+                        <p>Carregando...</p>
+                    ) : filmesFiltrados.length > 0 ? (
 
-                ) : (
-                    <div className="w-full flex items-center justify-center text-center py-8">
-                        <p>Filme não encontrado</p>
-                    </div>
-                )
-            }
-        </section>
+                        filmesFiltrados.map(filme => (
+                            <MovieCard key={filme.id} {...filme} />
+                        ))
+
+                    ) : (
+                        <div className="w-full flex items-center justify-center text-center py-8">
+                            <p>Filme não encontrado</p>
+                        </div>
+                    )
+                }
+            </section>
 
         </>
     )

@@ -8,6 +8,9 @@ export default function Home(){
     const [filmesAvaliados, setFilmesAvaliados] = useState([])
     const [filmesNaoLancados, setFilmesNaoLancados] = useState([])
     const [slidePerView, setSlidePerView] = useState(5)
+    const [favorito, setFavorito] = useState([])
+
+   
     
     useEffect(() => {
         fetch('https://api.themoviedb.org/3/movie/popular?api_key=7c572a9f5b3ba776080330d23bb76e1e&language=pt-br')
@@ -22,6 +25,11 @@ export default function Home(){
             .then( data => data.json())
             .then( data => setFilmesNaoLancados(data.results))
             .catch(err => console.log(err))
+
+        let favoritos = JSON.parse(localStorage.getItem("favoritos")) || []
+        setFavorito(favoritos)
+
+
         function handleResize(){
             if (window.innerWidth < 580){
                 setSlidePerView(3);
@@ -34,6 +42,8 @@ export default function Home(){
         return() => {
             window.removeEventListener('resize', handleResize)
         }
+
+        
     }, [])
 
     return(
@@ -80,6 +90,28 @@ export default function Home(){
                     }
                 </Swiper>
             </CardContainer>
+            <CardContainer titulo="Minha Lista">
+                
+                    {
+                       favorito.length > 0 ?
+                       
+                       <Swiper
+                       slidesPerView={slidePerView}>
+                        
+                        {favorito.map(filme => (
+                            <SwiperSlide>
+                                <MovieCard key={filme.id} {...filme}/>
+                            </SwiperSlide>
+                            
+                        ))}
+                        </Swiper>
+                        :
+                        <p className="text-white">Sua lista ainda está vazia
+                        </p>
+                    }
+                
+            </CardContainer>
+            
         </>
     )
 }
