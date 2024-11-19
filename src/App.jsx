@@ -1,15 +1,12 @@
 import { Outlet } from "react-router-dom"
-import Header from "./components/Header"
+import Nav from "./components/Nav"
 
 function App() {
 
   return (
     <>
-     <Header/>
+     <Nav/>
      <Outlet/>
-     {/* Exibe o header e a lista de filmes disponível divididos por
-     Antigos(antes dos anos 2000)
-     Bem-avaliados(nota maior que 9)*/}
     </>
   )
 }

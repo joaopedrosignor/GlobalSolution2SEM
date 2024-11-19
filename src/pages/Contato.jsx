@@ -16,13 +16,13 @@ export default function Contato(){
     }
 
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center items-center h-[100vh]">
             <form onSubmit={handleSubmit} className="flex flex-col w-2/4">
                 <label htmlFor="nome">Nome:</label>
                 <input 
                     type="text" 
                     id="nome" 
-                    className="text-black"
+                    className="text-black rounded-lg"
                     value={nome}
                     onChange={e => setNome(e.target.value)}
                     />
@@ -30,7 +30,7 @@ export default function Contato(){
                 <input 
                     type="email" 
                     id="email" 
-                    className="text-black"
+                    className="text-black rounded-lg"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     />
@@ -39,12 +39,12 @@ export default function Contato(){
                     id="mensagem" 
                     cols="30" 
                     rows="10" 
-                    className="text-black"
+                    className="text-black rounded-lg"
                     value={mensagem}
                     onChange={e => setMensagem(e.target.value)}
                     >
                 </textarea>
-                <button type="submit" className="bg-purple-900 mt-5 text-white p-2 rounded-md">Enviar</button>
+                <button type="submit" className="bg-green-600 mt-5 text-white p-2 rounded-md">Enviar</button>
             </form>
         </div>
     )

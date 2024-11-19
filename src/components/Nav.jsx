@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { FaTimes } from "react-icons/fa";
-import { PiFilmSlateDuotone } from "react-icons/pi";
+import { MdOutlineEnergySavingsLeaf } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
 
-export default function Header() {
+export default function Nav() {
     const content =
         <>
-            <div className="lg:hidden block absolute top-full w-full left-0 right-0 bg-purple-900 transition z-50 ">
+            <div className="lg:hidden block absolute top-full w-full h-screen left-0 right-0 bg-black transition z-50 ">
                 <ul className="text-center text-xl p-20">
-                    <NavLink spy="true" smooth="true" to='/'><li className="my-4 py-4 border-b border-purple-800 hover:bg-purple-800 hover:rounded">Home</li></NavLink>
-                    <NavLink spy="true" smooth="true" to='/movies'><li className="my-4 py-4 border-b border-purple-800 hover:bg-purple-800 hover:rounded">Filmes</li></NavLink>
-                    <NavLink spy="true" smooth="true" to='/genre'><li className="my-4 py-4 border-b border-purple-800 hover:bg-purple-800 hover:rounded">Gêneros</li></NavLink>
-                    <NavLink spy="true" smooth="true" to='/contato'><li className="my-4 py-4 border-b border-purple-800 hover:bg-purple-800 hover:rounded">Contato</li></NavLink>
+                    <NavLink to='/' onClick={() => toggleNavbar()}><li className="my-4 py-4 border-b border-green-600 hover:bg-green-600 hover:rounded">Home</li></NavLink>
+                    <NavLink to='/energias' onClick={() => toggleNavbar()}><li className="my-4 py-4 border-b border-green-600 hover:bg-green-600 hover:rounded">Energias</li></NavLink>
+                    <NavLink to='/contato' onClick={() => toggleNavbar()}><li className="my-4 py-4 border-b border-green-600 hover:bg-green-600 hover:rounded">Contato</li></NavLink>
                 </ul>
             </div>
         </>
@@ -25,20 +24,19 @@ export default function Header() {
     }
 
     return (
-        <nav className="relative">
-            <div className="h-10vh flex justify-between z-50 text-white lg:py-5 px-20 py-4 bg-purple-900">
+        <nav className={`fixed top-0 left-0 w-full z-50 ${isOpen ? 'bg-black' : 'bg-transparent'}`}>
+            <div className="h-10vh flex justify-between px-5 md:px-20 py-4 ">
                 <div className="flex items-center flex-1">
                     <NavLink to='/'>
-                        <span className="text-3xl font-bold"><PiFilmSlateDuotone /></span>
+                        <span className="text-3xl font-bold"><MdOutlineEnergySavingsLeaf className="text-green-500"/></span>
                     </NavLink>
                 </div>
-                <div className="lg:flex md:flex lg: flex-1 items-center justify-end font-normal hidden">
+                <div className="lg:flex md:flex flex-1 items-center justify-end font-normal hidden">
                     <div className="flex-10">
-                        <ul className="flex gap-8 mr-16 text-[18px]">
-                            <NavLink spy="true" smooth="true" to='/'><li className="hover:text-fuchsia-600 transition border-b-2 border-purple-900 hover:border-fuchsia-600 cursor-pointer">Home</li></NavLink>
-                            <NavLink spy="true" smooth="true" to='/movies'><li className="hover:text-fuchsia-600 transition border-b-2 border-purple-900 hover:border-fuchsia-600 cursor-pointer">Filmes</li></NavLink>
-                            <NavLink spy="true" smooth="true" to='/genre'><li className="hover:text-fuchsia-600 transition border-b-2 border-purple-900 hover:border-fuchsia-600 cursor-pointer">Gênero</li></NavLink>
-                            <NavLink spy="true" smooth="true" to='/contato'><li className="hover:text-fuchsia-600 transition border-b-2 border-purple-900 hover:border-fuchsia-600 cursor-pointer">Contato</li></NavLink>
+                        <ul className="flex gap-8  text-[18px]">
+                            <NavLink to='/'><li className="text-slate-50 hover:text-green-500 transition cursor-pointer">Home</li></NavLink>
+                            <NavLink to='/energias'><li className="text-slate-50 hover:text-green-500 transition cursor-pointer">Energias</li></NavLink>
+                            <NavLink to='/contato'><li className="text-slate-50 hover:text-green-500 transition cursor-pointer">Contato</li></NavLink>
                         </ul>
                     </div>
                 </div>
