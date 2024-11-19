@@ -22,7 +22,7 @@ export default function Contato(){
                 <input 
                     type="text" 
                     id="nome" 
-                    className="text-black rounded-lg"
+                    className="text-black rounded-lg mb-4"
                     value={nome}
                     onChange={e => setNome(e.target.value)}
                     />
@@ -30,7 +30,7 @@ export default function Contato(){
                 <input 
                     type="email" 
                     id="email" 
-                    className="text-black rounded-lg"
+                    className="text-black rounded-lg mb-4"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     />
@@ -39,7 +39,7 @@ export default function Contato(){
                     id="mensagem" 
                     cols="30" 
                     rows="10" 
-                    className="text-black rounded-lg"
+                    className="text-black rounded-lg mb-4"
                     value={mensagem}
                     onChange={e => setMensagem(e.target.value)}
                     >
